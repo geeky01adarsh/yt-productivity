@@ -3,14 +3,14 @@
   let currentVideo = "";
   let currentVideoBookmarks = [];
 
-  chrome.runtime.onMessage.addListener((obj, sender, response) => {
-    const { type, value, videoId } = obj;
 
-    if (type === "NEW") {
-      currentVideo = videoId;
-      newVideoLoaded();
-    }
-  });
+  const fetchBookmarks = () => {
+    return new Promise((resolve) => {
+      chrome.storage.sync.get([currentVideo], (obj) => {
+        resolve(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
+      });
+    });
+  };
 
   const setCurrSpeed = () => {
     const increaseSpeed = document.getElementsByClassName("yt-prod-btn")[1];
@@ -22,13 +22,13 @@
     decreaseSpeed.title = "Current Speed " + currSpeed;
   };
 
-  const newVideoLoaded = () => {
+  const newVideoLoaded = async() => {
     const bookmarkBtnExists = document.getElementsByClassName("yt-prod-btn")[0];
 
     if (!bookmarkBtnExists) {
       // add btn for bookmarks
       const bookmarkBtn = document.createElement("img");
-
+      currentVideoBookmarks = await fetchBookmarks();
       bookmarkBtn.src = chrome.runtime.getURL("assets/bookmark.png");
       bookmarkBtn.className = "ytp-button " + "yt-prod-btn";
       bookmarkBtn.title = "Click to bookmark current timestamp";
@@ -70,14 +70,15 @@
     }
   };
 
-  const addNewBookmarkEventHandler = () => {
+  const addNewBookmarkEventHandler = async() => {
     const currentTime = youtubePlayer.currentTime;
-    console.log(currentTime);
+    
     const newBookmark = {
       time: currentTime,
       desc: "Bookmark at " + getTime(currentTime),
     };
-    console.log(newBookmark);
+
+    currentVideoBookmarks = await fetchBookmarks();
 
     chrome.storage.sync.set({
       [currentVideo]: JSON.stringify(
@@ -100,6 +101,26 @@
     else video.playbackRate -= 0.1;
     setCurrSpeed();
   };
+
+
+  
+  chrome.runtime.onMessage.addListener((obj, sender, response) => {
+    const { type, value, videoId } = obj;
+    if (type === "NEW") {
+      currentVideo = videoId;
+      newVideoLoaded();
+    } else if (type === "PLAY") {
+      youtubePlayer.currentTime = value;
+    } else if (type === "DELETE") {
+      currentVideoBookmarks = currentVideoBookmarks.filter(
+        (b) => b.time != value
+      );
+      chrome.storage.sync.set({[currentVideo]:JSON.stringify(currentVideoBookmarks)});
+      response(currentVideoBookmarks);
+    }
+  });
+
+
 
   newVideoLoaded();
 })();

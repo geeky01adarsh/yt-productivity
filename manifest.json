@@ -1,7 +1,7 @@
 {
-    "name": "My YT Bookmarks",
+    "name": "YT Productivity",
     "version": "0.1.0",
-    "description": "Saving timestamps in YT videos",
+    "description": "Utility tools for youtube",
     "permissions": ["storage", "tabs"],
     "host_permissions": ["https://*.youtube.com/*"],
     "background": {
@@ -28,11 +28,11 @@
     ],
     "action": {
       "default_icon": {
-        "16": "assets/ext-icon.png",
-        "24": "assets/ext-icon.png",
-        "32": "assets/ext-icon.png"
+        "16": "assets/logo.png",
+        "24": "assets/logo.png",
+        "32": "assets/logo.png"
       },
-      "default_title": "My YT Bookmarks",
+      "default_title": "YT Productivity",
       "default_popup": "popup.html"
     },
     "manifest_version": 3
