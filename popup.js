@@ -1,4 +1,6 @@
-// adding a new bookmark row to the popup
+import { getCurrTab } from "./utils.js";
+
+
 const addNewBookmark = () => {};
 
 const viewBookmarks = () => {};
@@ -10,3 +12,4 @@ const onDelete = e => {};
 const setBookmarkAttributes =  () => {};
 
 document.addEventListener("DOMContentLoaded", () => {});
+
