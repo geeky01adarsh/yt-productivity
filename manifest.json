@@ -1,7 +1,7 @@
 {
     "name": "YT Productivity",
     "version": "0.1.0",
-    "description": "Utility tools for youtube",
+    "description": "Utility tools for youtube, you can control video speed by this extension. It gets added next to your video playback button whenever any video is loaded. You may increase or decrease spped using it.",
     "permissions": ["storage", "tabs"],
     "host_permissions": ["https://*.youtube.com/*"],
     "background": {
