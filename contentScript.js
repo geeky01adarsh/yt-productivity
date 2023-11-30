@@ -3,7 +3,6 @@
   let currentVideo = "";
   let currentVideoBookmarks = [];
 
-
   const fetchBookmarks = () => {
     return new Promise((resolve) => {
       chrome.storage.sync.get([currentVideo], (obj) => {
@@ -22,7 +21,7 @@
     decreaseSpeed.title = "Current Speed " + currSpeed;
   };
 
-  const newVideoLoaded = async() => {
+  const newVideoLoaded = async () => {
     const bookmarkBtnExists = document.getElementsByClassName("yt-prod-btn")[0];
 
     if (!bookmarkBtnExists) {
@@ -70,9 +69,9 @@
     }
   };
 
-  const addNewBookmarkEventHandler = async() => {
+  const addNewBookmarkEventHandler = async () => {
     const currentTime = youtubePlayer.currentTime;
-    
+
     const newBookmark = {
       time: currentTime,
       desc: "Bookmark at " + getTime(currentTime),
@@ -102,15 +101,14 @@
     setCurrSpeed();
   };
 
-
   // add event listeners
-  addEventListener("keypress", function(event){
+  addEventListener("keypress", function (event) {
     const key = event.key;
-    console.log(key)
-    if(key=='[') increaseVideoSpeed();
-    else if(key==']') decreaseVideoSpeed();
-  })
-  
+    console.log(key);
+    if (key == "[") decreaseVideoSpeed();
+    else if (key == "]") increaseVideoSpeed();
+  });
+
   chrome.runtime.onMessage.addListener((obj, sender, response) => {
     const { type, value, videoId } = obj;
     if (type === "NEW") {
@@ -122,12 +120,12 @@
       currentVideoBookmarks = currentVideoBookmarks.filter(
         (b) => b.time != value
       );
-      chrome.storage.sync.set({[currentVideo]:JSON.stringify(currentVideoBookmarks)});
+      chrome.storage.sync.set({
+        [currentVideo]: JSON.stringify(currentVideoBookmarks),
+      });
       response(currentVideoBookmarks);
     }
   });
-
-
 
   newVideoLoaded();
 })();
