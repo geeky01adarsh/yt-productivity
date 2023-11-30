@@ -103,6 +103,13 @@
   };
 
 
+  // add event listeners
+  addEventListener("keypress", function(event){
+    const key = event.key;
+    console.log(key)
+    if(key=='[') increaseVideoSpeed();
+    else if(key==']') decreaseVideoSpeed();
+  })
   
   chrome.runtime.onMessage.addListener((obj, sender, response) => {
     const { type, value, videoId } = obj;

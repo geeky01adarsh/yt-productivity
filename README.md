@@ -2,4 +2,4 @@
 
 This is a chrome extension which would help you bookmark timestamps easily.
 
-You can also increase or decrease youtube video playback speed using it's buttons.
+You can also increase youtube video playback speed by clicking (**[**) or decrease it by clicking (**]**), or by clicking on it's buttons.
